@@ -9,5 +9,14 @@
         android:id="@+id/splashScreen"
         android:name="com.example.movieinfo.SplashScreen"
         android:label="fragment_splash_screen"
-        tools:layout="@layout/fragment_splash_screen" />
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splashScreen_to_viewPagerFragment2"
+            app:destination="@id/viewPagerFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewPagerFragment2"
+        android:name="com.example.movieinfo.onBoarding.ViewPagerFragment"
+        android:label="fragment_view_pager"
+        tools:layout="@layout/fragment_view_pager" />
 </navigation>
