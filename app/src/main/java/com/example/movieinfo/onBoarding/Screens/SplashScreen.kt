@@ -1,4 +1,4 @@
-package com.example.movieinfo
+package com.example.movieinfo.onBoarding.Screens
 
 import android.os.Bundle
 import android.os.Handler
@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.example.movieinfo.R
 
 class SplashScreen : Fragment() {
 
@@ -15,8 +16,8 @@ class SplashScreen : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         Handler().postDelayed({
-            findNavController().navigate(R.id.action_splashScreen_to_viewPagerFragment2)
-        }, 3000)
+            findNavController().navigate(R.id.action_splashScreen_to_viewPagerFragment3)
+        }, 2000)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
     }

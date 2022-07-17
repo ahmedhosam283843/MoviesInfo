@@ -7,15 +7,15 @@
 
     <fragment
         android:id="@+id/splashScreen"
-        android:name="com.example.movieinfo.SplashScreen"
+        android:name="com.example.movieinfo.onBoarding.Screens.SplashScreen"
         android:label="fragment_splash_screen"
         tools:layout="@layout/fragment_splash_screen" >
         <action
-            android:id="@+id/action_splashScreen_to_viewPagerFragment2"
-            app:destination="@id/viewPagerFragment2" />
+            android:id="@+id/action_splashScreen_to_viewPagerFragment3"
+            app:destination="@id/viewPagerFragment3" />
     </fragment>
     <fragment
-        android:id="@+id/viewPagerFragment2"
+        android:id="@+id/viewPagerFragment3"
         android:name="com.example.movieinfo.onBoarding.ViewPagerFragment"
         android:label="fragment_view_pager"
         tools:layout="@layout/fragment_view_pager" />

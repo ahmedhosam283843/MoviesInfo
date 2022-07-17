@@ -29,19 +29,19 @@ class ViewPagerFragment : Fragment() {
             .supportFragmentManager, lifecycle)
         view.viewPager.adapter = adapter
 
-        view.bottom_navigation.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.firstMenuItem -> {
-                    view.viewPager.currentItem = 0
-                    true
-                }
-                R.id.secondMenuItem -> {
-                    view.viewPager.currentItem = 1
-                    true
-                }
-                else -> false
-            }
-        }
+//        view.bottom_navigation.setOnNavigationItemSelectedListener {
+//            when (it.itemId) {
+//                R.id.firstMenuItem -> {
+//                    view.viewPager.currentItem = 0
+//                    true
+//                }
+//                R.id.second -> {
+//                    view.viewPager.currentItem = 1
+//                    true
+//                }
+//                else -> false
+//            }
+//        }
        return view
     }
 
