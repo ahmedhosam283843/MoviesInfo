@@ -29,7 +29,7 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.MovieViewHolder>() 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         return MovieViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.movie_card, ////////////////////////
+                R.layout.movie_card,
                 parent,
                 false
             )
@@ -37,8 +37,6 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.MovieViewHolder>() 
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-//        holder.img.setImageResource(imgs[position])
-//        holder.title.text = s1[position]
         val movie = differ.currentList[position]
         holder.itemView.apply{
             Glide.with(this).load(POSTER_BASE_URL + movie.poster_path).into(search_img_view)

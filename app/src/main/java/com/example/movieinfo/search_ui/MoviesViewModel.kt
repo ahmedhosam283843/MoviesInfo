@@ -13,9 +13,6 @@ class MoviesViewModel(val moviesRepository: MoviesRepository) : ViewModel() {
     val searchResult  : MutableLiveData<Resource<MoviesResponse>> = MutableLiveData()
     var searchMoviesPage  =1
 
-    init {
-        searchMovies("wick")
-    }
 
     fun searchMovies(query: String) = viewModelScope.launch {
         searchResult.postValue(Resource.Loading())
