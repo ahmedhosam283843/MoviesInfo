@@ -7,6 +7,7 @@
     tools:context=".onBoarding.Screens.FirstFragment">
 
     <com.google.android.material.textfield.TextInputLayout
+        android:padding="5dp"
         android:id="@+id/textInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
@@ -35,6 +36,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:padding="5dp"
         android:id="@+id/searchRV"
         android:layout_width="409dp"
         android:layout_height="631dp"

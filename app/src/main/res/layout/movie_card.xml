@@ -8,8 +8,10 @@
 
     <androidx.cardview.widget.CardView
         app:cardBackgroundColor="#8ACFF8FD"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         app:cardCornerRadius="50dp"
         app:cardElevation="8dp"
         style="Widget.Material3.CardView.Outlined"

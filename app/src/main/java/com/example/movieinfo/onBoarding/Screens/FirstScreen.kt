@@ -5,45 +5,69 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movieinfo.MainActivity
+import com.example.movieinfo.search_ui.MoviesViewModel
 import com.example.movieinfo.R
 import com.example.movieinfo.search_ui.RecyclerAdapter
-import kotlinx.android.synthetic.main.fragment_first.*
+import com.example.movieinfo.util.Resource
 import kotlinx.android.synthetic.main.fragment_first.view.*
 
 
 class FirstFragment : Fragment() {
-    val imgs = listOf<Int>(
-        androidx.customview.R.drawable.notification_bg, androidx.constraintlayout.widget.R.drawable.abc_ab_share_pack_mtrl_alpha,
-        androidx.viewpager.R.drawable.notification_bg, androidx.constraintlayout.widget.R.drawable.notification_bg, androidx.appcompat.R.drawable.abc_ic_go_search_api_material,
-        androidx.constraintlayout.widget.R.drawable.notification_bg, androidx.transition.R.drawable.abc_btn_check_to_on_mtrl_000, androidx.constraintlayout.widget.R.drawable.abc_spinner_textfield_background_material,
-        androidx.constraintlayout.widget.R.drawable.notification_bg, androidx.appcompat.R.drawable.abc_edit_text_material)
-    lateinit var s1 : Array<String>
+    lateinit var viewModel: MoviesViewModel
+    lateinit var recyclerAdapter: RecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_first, container, false)
-        s1 = resources.getStringArray(R.array.programming_languages)
-        val adapter = RecyclerAdapter(requireContext(), s1, imgs)
-        view.searchRV.adapter = adapter
-        view.searchRV.layoutManager = LinearLayoutManager(requireContext())
+        setUpRecyclerView(view)
+        addTextInputListers(view)
+        return view
+    }
 
-        view.textInputLayout.setEndIconOnClickListener{
+    private fun setUpRecyclerView(view: View) {
+        recyclerAdapter = RecyclerAdapter()
+        view.searchRV.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = recyclerAdapter
+        }
+    }
+
+    private fun addTextInputListers(view: View) {
+        view.textInputLayout.setEndIconOnClickListener {
             if (view.textInputEditText.text.toString().isNotEmpty()) {
                 view.textInputEditText.text!!.clear()
-            }
-            else{
+            } else {
                 Toast.makeText(context, "Please Enter A Movie", Toast.LENGTH_SHORT).show()
             }
         }
+    }
 
-        return view
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel = (activity as MainActivity).viewModel
+        viewModel.searchResult.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    response.data?.let {
+                        recyclerAdapter.differ.submitList(it.results)
+                    }
+                }
+                is Resource.Error -> {
+                    response.message?.let {
+                        Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                    }
+                }
+                is Resource.Loading -> {
+                    Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 
 

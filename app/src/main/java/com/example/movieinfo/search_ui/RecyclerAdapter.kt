@@ -1,33 +1,53 @@
 package com.example.movieinfo.search_ui
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.movieinfo.R
+import com.example.movieinfo.api.Movie
+import com.example.movieinfo.util.Constants.Companion.POSTER_BASE_URL
 import kotlinx.android.synthetic.main.movie_card.view.*
 
-class RecyclerAdapter (val ct: Context,  var s1: Array<String>, val imgs: List<Int>): RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
-    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title = itemView.search_title
-        val img = itemView.search_img_view
+class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.MovieViewHolder>() {
+    inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    private val differCallBack = object : DiffUtil.ItemCallback<Movie>() {
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+            return oldItem == newItem
+        }
+    }
+    val differ = AsyncListDiffer(this, differCallBack)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+        return MovieViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.movie_card, ////////////////////////
+                parent,
+                false
+            )
+        )
     }
 
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+//        holder.img.setImageResource(imgs[position])
+//        holder.title.text = s1[position]
+        val movie = differ.currentList[position]
+        holder.itemView.apply{
+            Glide.with(this).load(POSTER_BASE_URL + movie.poster_path).into(search_img_view)
+            search_title.text = movie.title
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val inflater = LayoutInflater.from(ct)
-        val view = inflater.inflate(R.layout.movie_card, parent, false)
-        return MyViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.img.setImageResource(imgs[position])
-        holder.title.text = s1[position]
+        }
     }
 
     override fun getItemCount(): Int {
-        return s1.size
+        return differ.currentList.size
     }
 }
