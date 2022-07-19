@@ -4,7 +4,7 @@ import com.example.movieinfo.api.Movie
 
 data class MoviesResponse(
     val page: Int,
-    val results: List<Movie>,
+    val results: MutableList<Movie>,
     val total_pages: Int,
     val total_results: Int
 )

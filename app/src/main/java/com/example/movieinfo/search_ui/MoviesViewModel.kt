@@ -10,23 +10,32 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class MoviesViewModel(val moviesRepository: MoviesRepository) : ViewModel() {
-    val searchResult  : MutableLiveData<Resource<MoviesResponse>> = MutableLiveData()
+    val searchMovies  : MutableLiveData<Resource<MoviesResponse>> = MutableLiveData()
     var searchMoviesPage  =1
+    var searchMoviesResponse : MoviesResponse? = null
+
 
 
     fun searchMovies(query: String) = viewModelScope.launch {
-        searchResult.postValue(Resource.Loading())
+        searchMovies.postValue(Resource.Loading())
         val response = moviesRepository.searchMovies(query , searchMoviesPage)
-        searchResult.postValue(handleSearchMoviesResponse(response))
+        searchMovies.postValue(handleSearchMoviesResponse(response))
     }
 
     private fun handleSearchMoviesResponse(response: Response<MoviesResponse>) : Resource<MoviesResponse> {
         if (response.isSuccessful) {
-            response.body()?.let {
-                return Resource.Success(it)
+            response.body()?.let {resultResponse ->
+                searchMoviesPage++
+                if(searchMoviesResponse == null) {
+                    searchMoviesResponse =  resultResponse
+                } else {
+                    val  oldMovies = searchMoviesResponse?.results
+                    val newMovies = resultResponse.results
+                    oldMovies?.addAll(newMovies)
+                }
+                return Resource.Success(searchMoviesResponse ?: resultResponse)
             }
         }
         return Resource.Error(response.message())
     }
-
 }
