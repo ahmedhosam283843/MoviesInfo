@@ -14,8 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movieinfo.MainActivity
 import com.example.movieinfo.search_ui.MoviesViewModel
 import com.example.movieinfo.R
-import com.example.movieinfo.search_ui.RecyclerAdapter
-import com.example.movieinfo.util.Constants
+import com.example.movieinfo.search_ui.SearchRV
 import com.example.movieinfo.util.Constants.Companion.Query_Page_Size
 import com.example.movieinfo.util.Constants.Companion.Search_Movies_Delay
 import com.example.movieinfo.util.Resource
@@ -29,7 +28,7 @@ import kotlinx.coroutines.launch
 
 class FirstFragment : Fragment() {
     lateinit var viewModel: MoviesViewModel
-    lateinit var recyclerAdapter: RecyclerAdapter
+    lateinit var recyclerAdapter: SearchRV
     var isLoading = false
     var isLastPage = false
     var isScrolling = false
@@ -73,7 +72,7 @@ class FirstFragment : Fragment() {
     }
 
     private fun setUpRecyclerView(view: View) {
-        recyclerAdapter = RecyclerAdapter()
+        recyclerAdapter = SearchRV()
         view.searchRV.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = recyclerAdapter
@@ -107,6 +106,9 @@ class FirstFragment : Fragment() {
                 is Resource.Loading -> {
                     Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
                 }
+                else -> {
+                    Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }
@@ -130,6 +132,7 @@ class FirstFragment : Fragment() {
                 delay(Search_Movies_Delay)
                 editable?.let {
                     if (editable.toString().isNotEmpty()) {
+                        viewModel.searchMoviesResponse = null
                         viewModel.searchMovies(editable.toString())
                     }
                 }

@@ -14,6 +14,36 @@ class MoviesViewModel(val moviesRepository: MoviesRepository) : ViewModel() {
     var searchMoviesPage  =1
     var searchMoviesResponse : MoviesResponse? = null
 
+    val popularMovies : MutableLiveData<Resource<MoviesResponse>> = MutableLiveData()
+    var popularMoviesPage  =1
+    var popularMoviesResponse : MoviesResponse? = null
+
+    init {
+        getPopularMovies()
+    }
+
+    fun getPopularMovies() = viewModelScope.launch {
+        popularMovies.postValue(Resource.Loading())
+        val response = moviesRepository.getPopularMovies()
+        popularMovies.postValue(handlePopularMoviesResponse(response))
+    }
+
+    private fun handlePopularMoviesResponse(response: Response<MoviesResponse>) : Resource<MoviesResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let {resultResponse ->
+                popularMoviesPage++
+                if(popularMoviesResponse == null) {
+                    popularMoviesResponse =  resultResponse
+                } else {
+                    val  oldMovies = popularMoviesResponse?.results
+                    val newMovies = resultResponse.results
+                    oldMovies?.addAll(newMovies)
+                }
+                return Resource.Success(popularMoviesResponse ?: resultResponse)
+            }
+        }
+        return Resource.Error(response.message())
+    }
 
 
     fun searchMovies(query: String) = viewModelScope.launch {

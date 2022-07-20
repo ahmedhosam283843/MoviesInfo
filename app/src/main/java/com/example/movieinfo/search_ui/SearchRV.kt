@@ -12,7 +12,7 @@ import com.example.movieinfo.api.Movie
 import com.example.movieinfo.util.Constants.Companion.POSTER_BASE_URL
 import kotlinx.android.synthetic.main.movie_card.view.*
 
-class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.MovieViewHolder>() {
+class SearchRV : RecyclerView.Adapter<SearchRV.MovieViewHolder>() {
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private val differCallBack = object : DiffUtil.ItemCallback<Movie>() {

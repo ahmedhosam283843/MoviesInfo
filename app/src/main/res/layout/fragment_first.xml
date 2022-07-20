@@ -36,11 +36,11 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:padding="5dp"
         android:id="@+id/searchRV"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="631dp"
         android:layout_marginTop="1dp"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
