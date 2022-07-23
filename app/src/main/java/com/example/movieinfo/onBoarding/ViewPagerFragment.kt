@@ -21,22 +21,19 @@ class ViewPagerFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_view_pager, container, false)
-        val fragmentList = arrayListOf<Fragment>(
-            FirstFragment(),
-            SecondFragment()
-        )
-        val adapter = ViewPagerAdapter(fragmentList, requireActivity()
+        val adapter = ViewPagerAdapter(requireActivity()
             .supportFragmentManager, lifecycle)
         view.viewPager.adapter = adapter
 
-        view.bottomNavigationView.setOnNavigationItemSelectedListener {
+
+        view.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.firstMenuItem -> {
-                    view.viewPager.currentItem = 0
+                    view.viewPager.currentItem = OnBoardingPage.Home.index
                     true
                 }
                 R.id.secondMenuItem -> {
-                    view.viewPager.currentItem = 1
+                    view.viewPager.currentItem = OnBoardingPage.Search.index
                     true
                 }
                 else -> false
